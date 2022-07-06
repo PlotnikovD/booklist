@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/book_list
+    username: postgres
+    password: bbr2wc
+
+  liquibase:
+    change-log: classpath:liquibase/changelog.yml
+
+server:
+  port: 8088

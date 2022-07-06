@@ -1,0 +1,33 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: DEV-1
+      author: plotnikovD
+      changes:
+        - createTable:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(100)
+              - column:
+                  name: description
+                  type: varchar(2048)
+              - column:
+                  name: author
+                  type: varchar(100)
+              - column:
+                  name: isbn
+                  type: varchar(20)
+              - column:
+                  name: print_year
+                  type: int
+              - column:
+                  name: read_already
+                  type: boolean
