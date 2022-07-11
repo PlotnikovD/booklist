@@ -7,6 +7,9 @@ import com.example.booklist.exception.BookNotFoundException;
 import com.example.booklist.repository.BooksRepository;
 import liquibase.repackaged.org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -17,10 +20,14 @@ public class BooksService {
 
     private final BooksRepository booksRepository;
 
+
+    //private final BooksFindRepository booksFindRepository;
+
     @Autowired
     public BooksService(BooksRepository booksRepository) {
         this.booksRepository = booksRepository;
     }
+
 
     public BooksResponceDto createBook(BooksRequestDto booksRequestDto) {
         Books books = new Books(booksRequestDto.getTitle(), booksRequestDto.getDescription(), booksRequestDto.getAuthor(),
@@ -30,7 +37,7 @@ public class BooksService {
                 books.getIsbn(), books.getPrintYear(), books.isReadAlready());
     }
 
-    public Books getBookById(BigInteger id) {
+    public Books getBookById(Long id) {
         return booksRepository.findById(id).orElseThrow(() ->
                 new BookNotFoundException("Книга по id - " + id + " не найдена"));
     }
@@ -51,12 +58,22 @@ public class BooksService {
 
     }
 
-    public void readAlready(BigInteger id) {
+    public void readAlready(Long id) {
         Books book = booksRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Книга не найдена"));
         if (BooleanUtils.isFalse(book.isReadAlready())) {
             book.setReadAlready(true);
             booksRepository.save(book);
         }
+    }
+
+    public List<Books> findPaginated(int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<Books> pagedResult = booksRepository.findAll(paging);
+        return pagedResult.toList();
+    }
+
+    public List<Books> findByTitleContainingIgnoreCase(String title) {
+        return booksRepository.findByTitleContainingIgnoreCase(title);
     }
 }

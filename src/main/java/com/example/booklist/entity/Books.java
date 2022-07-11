@@ -9,12 +9,11 @@ public class Books {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
     private String title;
     private String description;
     private String author;
     private String isbn;
-
     private int printYear;
     private boolean readAlready;
 
@@ -32,11 +31,11 @@ public class Books {
         this.readAlready = readAlready;
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

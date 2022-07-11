@@ -7,7 +7,6 @@ import com.example.booklist.service.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,13 +20,14 @@ public class BooksController {
     public BooksController(BooksService booksService) {
         this.booksService = booksService;
     }
+
     @PostMapping("/books")
-    public BooksResponceDto createBook (@RequestBody BooksRequestDto booksRequestDto){
+    public BooksResponceDto createBook(@RequestBody BooksRequestDto booksRequestDto) {
         return booksService.createBook(booksRequestDto);
     }
 
     @GetMapping("/books/{id}")
-    public BooksResponceDto getBook(@PathVariable BigInteger id){
+    public BooksResponceDto getBook(@PathVariable Long id) {
         return new BooksResponceDto(booksService.getBookById(id));
     }
 
@@ -37,15 +37,25 @@ public class BooksController {
     }
 
     @PutMapping("/books")
-    public Books update(@RequestBody Books books){
+    public Books update(@RequestBody Books books) {
         booksService.update(books);
         return books;
     }
 
     @PutMapping("/readAlready")
-    public void readAlready(@PathVariable BigInteger id){
+    public void readAlready(@PathVariable Long id) {
         booksService.readAlready(id);
-
     }
 
+    @GetMapping("/books/{pageNo}/{pageSize}")
+    public List<Books> getPaginatedBooks(@PathVariable int pageNo, @PathVariable int pageSize) {
+        return booksService.findPaginated(pageNo, pageSize);
+    }
+
+    @GetMapping("/search")
+    public List<Books> searchTitle(@RequestParam(required = false) String searchTitle) {
+        return booksService.findByTitleContainingIgnoreCase(searchTitle);
+
+    }
 }
+

@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 public class BooksResponceDto {
 
-    private BigInteger id;
+    private Long id;
     private String title;
     private String description;
     private String author;
@@ -14,7 +14,7 @@ public class BooksResponceDto {
     private int printYear;
     private boolean readAlready;
 
-    public BooksResponceDto(BigInteger id, String title, String description, String author, String isbn, int printYear, boolean readAlready) {
+    public BooksResponceDto(Long id, String title, String description, String author, String isbn, int printYear, boolean readAlready) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -34,11 +34,11 @@ public class BooksResponceDto {
         readAlready = books.isReadAlready();
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
