@@ -54,11 +54,8 @@ public class BooksController {
 
     @GetMapping("/search")
     public List<Books> searchTitle(@RequestParam(required = false) String searchTitle) {
-        List<Books> searchResult = List.of();
-        if (searchTitle != null) {
-            searchResult = booksService.findByTitleContainingIgnoreCase(searchTitle);
-        }
-        return searchResult;
+        return booksService.findByTitleContainingIgnoreCase(searchTitle);
+
     }
 }
 
