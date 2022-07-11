@@ -4,9 +4,13 @@ import com.example.booklist.controller.dto.BooksRequestDto;
 import com.example.booklist.controller.dto.BooksResponceDto;
 import com.example.booklist.entity.Books;
 import com.example.booklist.exception.BookNotFoundException;
+import com.example.booklist.repository.BooksFindRepository;
 import com.example.booklist.repository.BooksRepository;
 import liquibase.repackaged.org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -17,10 +21,15 @@ public class BooksService {
 
     private final BooksRepository booksRepository;
 
+
+    private final BooksFindRepository booksFindRepository;
+
     @Autowired
-    public BooksService(BooksRepository booksRepository) {
+    public BooksService(BooksRepository booksRepository, BooksFindRepository booksFindRepository) {
         this.booksRepository = booksRepository;
+        this.booksFindRepository = booksFindRepository;
     }
+
 
     public BooksResponceDto createBook(BooksRequestDto booksRequestDto) {
         Books books = new Books(booksRequestDto.getTitle(), booksRequestDto.getDescription(), booksRequestDto.getAuthor(),
@@ -36,7 +45,7 @@ public class BooksService {
     }
 
     public List<Books> getAll() {
-        return booksRepository.findAll();
+        return (List<Books>) booksRepository.findAll();
     }
 
     public void update(Books books) {
@@ -59,4 +68,27 @@ public class BooksService {
             booksRepository.save(book);
         }
     }
+
+    public List<Books> findPaginated(int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<Books> pagedResult = booksRepository.findAll(paging);
+        return pagedResult.toList();
+    }
+
+    public List<Books> findByTitleContainingIgnoreCase(String title) throws Exception {
+        List<Books> searchResult =  booksFindRepository.findByTitleContainingIgnoreCase(title);
+        if(searchResult == null) {
+            throw new Exception("не найдено");
+        }
+        return searchResult;
+        }
+
+
 }
+
+
+
+
+
+//title -> discriptiom > author -> erorr
+//критерии api
