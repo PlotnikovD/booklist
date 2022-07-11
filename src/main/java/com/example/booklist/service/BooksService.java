@@ -4,7 +4,6 @@ import com.example.booklist.controller.dto.BooksRequestDto;
 import com.example.booklist.controller.dto.BooksResponceDto;
 import com.example.booklist.entity.Books;
 import com.example.booklist.exception.BookNotFoundException;
-import com.example.booklist.repository.BooksFindRepository;
 import com.example.booklist.repository.BooksRepository;
 import liquibase.repackaged.org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +21,11 @@ public class BooksService {
     private final BooksRepository booksRepository;
 
 
-    private final BooksFindRepository booksFindRepository;
+    //private final BooksFindRepository booksFindRepository;
 
     @Autowired
-    public BooksService(BooksRepository booksRepository, BooksFindRepository booksFindRepository) {
+    public BooksService(BooksRepository booksRepository) {
         this.booksRepository = booksRepository;
-        this.booksFindRepository = booksFindRepository;
     }
 
 
@@ -39,13 +37,13 @@ public class BooksService {
                 books.getIsbn(), books.getPrintYear(), books.isReadAlready());
     }
 
-    public Books getBookById(BigInteger id) {
+    public Books getBookById(Long id) {
         return booksRepository.findById(id).orElseThrow(() ->
                 new BookNotFoundException("Книга по id - " + id + " не найдена"));
     }
 
     public List<Books> getAll() {
-        return (List<Books>) booksRepository.findAll();
+        return booksRepository.findAll();
     }
 
     public void update(Books books) {
@@ -60,7 +58,7 @@ public class BooksService {
 
     }
 
-    public void readAlready(BigInteger id) {
+    public void readAlready(Long id) {
         Books book = booksRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Книга не найдена"));
         if (BooleanUtils.isFalse(book.isReadAlready())) {
@@ -75,20 +73,7 @@ public class BooksService {
         return pagedResult.toList();
     }
 
-    public List<Books> findByTitleContainingIgnoreCase(String title) throws Exception {
-        List<Books> searchResult =  booksFindRepository.findByTitleContainingIgnoreCase(title);
-        if(searchResult == null) {
-            throw new Exception("не найдено");
-        }
-        return searchResult;
-        }
-
-
+    public List<Books> findByTitleContainingIgnoreCase(String title) {
+        return booksRepository.findByTitleContainingIgnoreCase(title);
+    }
 }
-
-
-
-
-
-//title -> discriptiom > author -> erorr
-//критерии api

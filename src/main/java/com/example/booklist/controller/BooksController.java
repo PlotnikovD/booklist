@@ -3,12 +3,10 @@ package com.example.booklist.controller;
 import com.example.booklist.controller.dto.BooksRequestDto;
 import com.example.booklist.controller.dto.BooksResponceDto;
 import com.example.booklist.entity.Books;
-import com.example.booklist.repository.BooksFindRepository;
 import com.example.booklist.service.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,12 +16,9 @@ public class BooksController {
 
     private final BooksService booksService;
 
-    final BooksFindRepository booksFindRepository;
-
     @Autowired
-    public BooksController(BooksService booksService, BooksFindRepository booksFindRepository) {
+    public BooksController(BooksService booksService) {
         this.booksService = booksService;
-        this.booksFindRepository = booksFindRepository;
     }
 
     @PostMapping("/books")
@@ -32,7 +27,7 @@ public class BooksController {
     }
 
     @GetMapping("/books/{id}")
-    public BooksResponceDto getBook(@PathVariable BigInteger id) {
+    public BooksResponceDto getBook(@PathVariable Long id) {
         return new BooksResponceDto(booksService.getBookById(id));
     }
 
@@ -48,9 +43,8 @@ public class BooksController {
     }
 
     @PutMapping("/readAlready")
-    public void readAlready(@PathVariable BigInteger id) {
+    public void readAlready(@PathVariable Long id) {
         booksService.readAlready(id);
-
     }
 
     @GetMapping("/books/{pageNo}/{pageSize}")
@@ -58,16 +52,11 @@ public class BooksController {
         return booksService.findPaginated(pageNo, pageSize);
     }
 
-
     @GetMapping("/search")
     public List<Books> searchTitle(@RequestParam(required = false) String searchTitle) {
         List<Books> searchResult = List.of();
         if (searchTitle != null) {
-            try {
-                searchResult = booksService.findByTitleContainingIgnoreCase(searchTitle);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            searchResult = booksService.findByTitleContainingIgnoreCase(searchTitle);
         }
         return searchResult;
     }
