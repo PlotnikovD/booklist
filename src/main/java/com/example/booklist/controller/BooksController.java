@@ -4,6 +4,7 @@ import com.example.booklist.controller.dto.BooksRequestDto;
 import com.example.booklist.controller.dto.BooksResponceDto;
 import com.example.booklist.entity.Books;
 import com.example.booklist.service.BooksService;
+import liquibase.pro.packaged.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,7 @@ public class BooksController {
     public void readAlready(@PathVariable Long id) {
         booksService.readAlready(id);
     }
+/*
 
     @GetMapping("/books/{pageNo}/{pageSize}")
     public List<Books> getPaginatedBooks(@PathVariable int pageNo, @PathVariable int pageSize) {
@@ -55,7 +57,15 @@ public class BooksController {
     @GetMapping("/search")
     public List<Books> searchTitle(@RequestParam(required = false) String searchTitle) {
         return booksService.findByTitleContainingIgnoreCase(searchTitle);
+*/
 
+    @GetMapping("/search")
+    public List<Books> getByOptionalParam(@RequestParam(required = false) String searchTitle,
+                                          @RequestParam(required = false) int pageNo,
+                                          @RequestParam(required = false) int pageSize) {
+        return booksService.findByOptionalParam(searchTitle, pageNo, pageSize);
     }
 }
+
+
 
