@@ -7,11 +7,12 @@ import com.example.booklist.exception.BookNotFoundException;
 import com.example.booklist.repository.BooksRepository;
 import liquibase.repackaged.org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -19,6 +20,8 @@ public class BooksService {
 
     private final BooksRepository booksRepository;
 
+
+    //private final BooksFindRepository booksFindRepository;
 
     @Autowired
     public BooksService(BooksRepository booksRepository) {
@@ -63,7 +66,7 @@ public class BooksService {
             booksRepository.save(book);
         }
     }
-/*
+
     public List<Books> findPaginated(int page, int size) {
         Pageable paging = PageRequest.of(page, size);
         Page<Books> pagedResult = booksRepository.findAll(paging);
@@ -72,14 +75,5 @@ public class BooksService {
 
     public List<Books> findByTitleContainingIgnoreCase(String title) {
         return booksRepository.findByTitleContainingIgnoreCase(title);
-    }*/
-
-    public List<Books> findByOptionalParams(String title, int page, int size) {
-        Pageable paging = (Pageable) PageRequest.of(page, size);
-        //Page<Books> pagedResult = booksRepository.findByOptionalParam();
-        //Pageable pageable = (Pageable) pagedResult.toList();
-
-        return booksRepository.findAllByTitle(title, paging);
-
     }
 }

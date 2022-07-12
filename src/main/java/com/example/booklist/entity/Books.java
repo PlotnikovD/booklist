@@ -1,6 +1,7 @@
 package com.example.booklist.entity;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 
 @Entity
 @Table(name = "books")
