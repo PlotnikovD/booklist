@@ -11,17 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.math.BigInteger;
 import java.util.List;
 
 @Service
 public class BooksService {
 
     private final BooksRepository booksRepository;
-
-
-    //private final BooksFindRepository booksFindRepository;
 
     @Autowired
     public BooksService(BooksRepository booksRepository) {
@@ -67,18 +62,9 @@ public class BooksService {
         }
     }
 
-/*    public List<Books> findPaginated(int page, int size) {
+    public Page<Books> findByOptionalParam(String title, int page, int size) {
         Pageable paging = PageRequest.of(page, size);
-        Page<Books> pagedResult = booksRepository.findAll(paging);
-        return pagedResult.toList();
-    }
-
-    public List<Books> findByTitleContainingIgnoreCase(String title) {
-        return booksRepository.findByTitleContainingIgnoreCase(title);*/
-
-    public List<Books> findByOptionalParam(String title, int page, int size) {
-        Pageable paging = PageRequest.of(page, size);
-        return booksRepository.findAllByTitle(title, (java.awt.print.Pageable) paging);
+        return booksRepository.findAllByTitleContainingIgnoreCase(title, paging);
 
     }
 }

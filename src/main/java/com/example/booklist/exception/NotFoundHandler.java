@@ -13,4 +13,9 @@ public class NotFoundHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleConflict(BookNotFoundException ex) {
         return new ResponseEntity<>((new NotFoundExceptionDto(ex.getLocalizedMessage())), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(PaginationNotFound.class)
+    public ResponseEntity<Object> handleConflict(PaginationNotFound ex) {
+        return new ResponseEntity<>((new NotFoundExceptionDto(ex.getLocalizedMessage())), HttpStatus.NOT_FOUND);
+    }
 }
