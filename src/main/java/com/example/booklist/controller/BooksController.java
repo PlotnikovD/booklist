@@ -3,11 +3,8 @@ package com.example.booklist.controller;
 import com.example.booklist.controller.dto.BooksRequestDto;
 import com.example.booklist.controller.dto.BooksResponceDto;
 import com.example.booklist.entity.Books;
-import com.example.booklist.exception.PaginationNotFound;
 import com.example.booklist.service.BooksService;
-import liquibase.pro.packaged.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,11 +52,11 @@ public class BooksController {
     public List<Books> getByOptionalParam(@RequestParam(required = false) String searchTitle,
                                           @RequestParam(required = false) Integer pageNo,
                                           @RequestParam(required = false) Integer pageSize) {
-        if (pageNo == null || pageSize == null ) {
-            throw new PaginationNotFound("Пагинация не задана");
+/*        if (pageNo == null || pageSize == null ) {
+            throw new PaginationNotFoundException("Пагинация не задана");
 
-        }
-        return booksService.findByOptionalParam(searchTitle, pageNo, pageSize).toList();
+        }*/
+        return booksService.findByOptionalParam(searchTitle, pageNo, pageSize);
     }
 }
 

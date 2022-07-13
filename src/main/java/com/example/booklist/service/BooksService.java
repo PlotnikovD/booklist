@@ -7,7 +7,6 @@ import com.example.booklist.exception.BookNotFoundException;
 import com.example.booklist.repository.BooksRepository;
 import liquibase.repackaged.org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -62,10 +61,13 @@ public class BooksService {
         }
     }
 
-    public Page<Books> findByOptionalParam(String title, int page, int size) {
-        Pageable paging = PageRequest.of(page, size);
-        return booksRepository.findAllByTitleContainingIgnoreCase(title, paging);
-
+    public List<Books> findByOptionalParam(String title, Integer page, Integer size) {
+        if (page != null && size != null) {
+            Pageable paging = PageRequest.of(page, size);
+            return booksRepository.findAllByTitleContainingIgnoreCase(title, paging);
+        } else {
+            return booksRepository.findAllByTitleContainingIgnoreCase(title);
+        }
     }
 }
 

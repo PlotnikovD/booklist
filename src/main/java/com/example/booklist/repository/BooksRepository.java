@@ -11,6 +11,9 @@ import java.util.List;
 public interface BooksRepository extends PagingAndSortingRepository<Books, Long> {
     List<Books> findAll();
 
-    Page<Books> findAllByTitleContainingIgnoreCase(String title, Pageable pageable);
+    List<Books> findAllByTitleContainingIgnoreCase(String title, Pageable pageable);
+    List<Books> findAllByTitleContainingIgnoreCase(String title);
+
+
 
 }
