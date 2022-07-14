@@ -7,7 +7,6 @@ import com.example.booklist.service.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,10 +51,6 @@ public class BooksController {
     public List<Books> getByOptionalParam(@RequestParam(required = false) String searchTitle,
                                           @RequestParam(required = false) Integer pageNo,
                                           @RequestParam(required = false) Integer pageSize) {
-/*        if (pageNo == null || pageSize == null ) {
-            throw new PaginationNotFoundException("Пагинация не задана");
-
-        }*/
         return booksService.findByOptionalParam(searchTitle, pageNo, pageSize);
     }
 }

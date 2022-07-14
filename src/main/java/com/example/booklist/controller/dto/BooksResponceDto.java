@@ -2,8 +2,6 @@ package com.example.booklist.controller.dto;
 
 import com.example.booklist.entity.Books;
 
-import java.math.BigInteger;
-
 public class BooksResponceDto {
 
     private Long id;
