@@ -47,15 +47,13 @@ public class BooksController {
         booksService.readAlready(id);
     }
 
-    @GetMapping("/books/{pageNo}/{pageSize}")
-    public List<Books> getPaginatedBooks(@PathVariable int pageNo, @PathVariable int pageSize) {
-        return booksService.findPaginated(pageNo, pageSize);
-    }
-
     @GetMapping("/search")
-    public List<Books> searchTitle(@RequestParam(required = false) String searchTitle) {
-        return booksService.findByTitleContainingIgnoreCase(searchTitle);
-
+    public List<Books> getByOptionalParam(@RequestParam(required = false) String searchTitle,
+                                          @RequestParam(required = false) Integer pageNo,
+                                          @RequestParam(required = false) Integer pageSize) {
+        return booksService.findByOptionalParam(searchTitle, pageNo, pageSize);
     }
 }
+
+
 

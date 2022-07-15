@@ -11,6 +11,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class NotFoundHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<Object> handleConflict(BookNotFoundException ex) {
-        return new ResponseEntity<>((new NotFoundExceptionDto(ex.getLocalizedMessage())), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new NotFoundExceptionDto(ex.getLocalizedMessage()), HttpStatus.NOT_FOUND);
     }
 }
