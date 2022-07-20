@@ -1,11 +1,12 @@
 package com.example.booklist.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigInteger;
 
 @Entity
 @Table(name = "books")
-public class Books {
+public class Books implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
