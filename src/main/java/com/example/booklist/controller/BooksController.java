@@ -4,6 +4,7 @@ import com.example.booklist.controller.dto.BooksRequestDto;
 import com.example.booklist.controller.dto.BooksResponceDto;
 import com.example.booklist.entity.Books;
 import com.example.booklist.service.BooksService;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,18 @@ public class BooksController {
                                           @RequestParam(required = false) Integer pageSize) {
         return booksService.findByOptionalParam(searchTitle, pageNo, pageSize);
     }
+
+
+    AmqpTemplate template;
+
+    @RequestMapping("/emit")
+    @ResponseBody
+    String queue1() {
+        System.out.println("Emit to get");
+        template.convertAndSend("request","Message to get");
+        return "Emit to get";
+    }
+
 }
 
 

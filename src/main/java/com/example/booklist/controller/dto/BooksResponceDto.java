@@ -2,7 +2,9 @@ package com.example.booklist.controller.dto;
 
 import com.example.booklist.entity.Books;
 
-public class BooksResponceDto {
+import java.io.Serializable;
+
+public class BooksResponceDto implements Serializable {
 
     private Long id;
     private String title;

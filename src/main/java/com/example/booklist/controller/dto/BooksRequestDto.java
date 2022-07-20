@@ -1,6 +1,8 @@
 package com.example.booklist.controller.dto;
 
-public class BooksRequestDto {
+import java.io.Serializable;
+
+public class BooksRequestDto implements Serializable {
 
     private String title;
     private String description;
